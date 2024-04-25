@@ -245,12 +245,20 @@
     ></script>
     <script>
       $(document).ready(function () {
+       
+        const textElements = document.querySelectorAll("#text");
+        let index = 0;
+
         var current_fs, next_fs, previous_fs; //fieldsets
         var opacity;
+  
+        typeWriter(textElements[0],40,0);  
 
         $('.next').click(function () {
+          
           current_fs = $(this).parent();
           next_fs = $(this).parent().next();
+          
 
           // Check if current fieldset is valid
           if (
@@ -286,6 +294,11 @@
               duration: 500,
             }
           );
+     
+          index++;
+          if (index < textElements.length) {
+              typeWriter(textElements[index], 40, 0);
+          } 
         });
 
         $('.previous').click(function () {
@@ -319,23 +332,21 @@
           return false;
         });
       });
-      var i = 0;
-      // var A = 0;
-      var tag = document.getElementById('text');
-      var html = document.getElementById('text').innerHTML;
-      var attr = tag.setAttribute('data', html);
-      var txt = tag.getAttribute('data');
-      var speed = 80;
+  
+      function typeWriter(textElement, speed, iteration) {
+        let text = textElement;
+        let html = text.innerHTML;
 
-      function typeWriter() {
-        if (i <= txt.length) {
-          document.getElementById('text').innerHTML = txt.slice(0, i + 1);
-          i++;
-          setTimeout(typeWriter, speed);
+        function type() {
+            if (iteration <= html.length) {
+                text.innerHTML = html.slice(0, iteration + 1);
+                iteration++;
+                setTimeout(type, speed);
+            }
         }
-      }
 
-      typeWriter();
+        type();
+      }      
     </script>
   </body>
 </html>
